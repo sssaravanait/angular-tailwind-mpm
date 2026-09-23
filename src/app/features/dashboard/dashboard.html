@@ -1,1 +1,16 @@
-<p>dashboard works!</p>
+<section class="flex flex-col justify-between">
+
+    <div class="flex flex-col gap-4 py-4">
+        <h1 class="text-2xl font-bold">Dashboard</h1>
+        <p class="text-gray-800">Welcome to your dashboard. Here you can find an overview of your activities and statistics.</p>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="flex flex-1 flex-col gap-4 md:flex-row">
+
+        @for (stat of dashboardStats; track stat.title) {
+            <app-stats-sm [title]="stat.title" [value]="stat.value"></app-stats-sm>
+        }
+
+    </div>
+</section>
