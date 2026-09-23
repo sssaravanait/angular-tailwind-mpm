@@ -12,10 +12,12 @@ export const routes: AppRoute[] = [
     // Customer module routes
     { path: 'customers', title: 'Customers', component: CustomersList, showInMenu: true },
     { path: 'customers/create', title: 'Create Customer', component: CustomerForm },
+    { path: 'customers/:id/edit', title: 'Edit Customer', component: CustomerForm },
 
     // App Users module routes
     { path: 'app-users', title: 'App Users', component: AppUsersList, showInMenu: true },
     { path: 'app-users/create', title: 'Create App User', component: AppUserForm },
+    { path: 'app-users/:id/edit', title: 'Edit App User', component: AppUserForm },
 
     // Wildcard route for a 404 page
     { path: '**', redirectTo: 'dashboard' },
