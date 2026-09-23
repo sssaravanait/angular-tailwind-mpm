@@ -10,5 +10,5 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
     imports: [RouterLink, RouterLinkActive, NgFor],
 })
 export class Sidebar {
-    menuItems = routes.filter(route => route.path && route.path != '**' && route.path != '');
+    menuItems = routes.filter(route => route.showInMenu );
 }
