@@ -1,0 +1,22 @@
+<header class="w-full h-16 space-x-4 p-4 bg-gray-800 text-white flex flex-row justify-between items-center">
+    <div>
+        <!-- You can place a logo or page title here if needed -->
+    </div>
+
+    <div class="relative group">
+        <button class="flex items-center space-x-2 focus:outline-none" aria-haspopup="true" aria-expanded="false">
+            <span>DEMO COMPANY ADMIN</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+            </svg>
+        </button>
+
+        <!-- Dropdown menu, hidden by default and shown on group hover -->
+        <div class="absolute right-0 mt-2 w-52 bg-white text-black rounded shadow-lg opacity-0 pointer-events-cursor group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity z-10"
+            role="menu" aria-label="User menu">
+            <a href="#" class="block px-4 py-2 hover:bg-gray-200" role="menuitem">Profile Settings</a>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-200" role="menuitem">Logout</a>
+        </div>
+    </div>
+</header>

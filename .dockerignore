@@ -1,0 +1,10 @@
+node_modules
+dist
+.git
+.gitignore
+.angular
+coverage
+*.log
+Dockerfile
+docker-compose.yml
+.dockerignore

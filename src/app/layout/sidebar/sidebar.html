@@ -1,0 +1,27 @@
+<aside class="w-60 h-screen bg-gray-800 text-white flex flex-col scroll-auto">
+
+    <!-- Logo section -->
+    <div class="flex items-center space-x-4 p-4 border-b border-gray-700">
+        <div class="text-4xl font-bold">T</div>
+        <div class="flex flex-col justify-between">
+            <div class="font-semibold">Tampere</div>
+            <div class="text-xs text-gray-400">By Energy Ventures</div>
+        </div>
+    </div>
+
+    <!-- Side Menu Items -->
+    <nav class="flex-1 overflow-y-auto">
+        <ul class="py-3">
+            <li *ngFor="let item of menuItems">
+                <a 
+                    routerLink="/{{item.path}}" 
+                    routerLinkActive="bg-gray-800"
+                    [routerLinkActiveOptions]="{exact: true}"
+                    class="px-4 py-2 hover:bg-gray-600 flex items-center cursor-pointer"
+                >
+                    <span class="ml-2">{{item.title}}</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</aside>
