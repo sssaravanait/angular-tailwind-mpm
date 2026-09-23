@@ -15,9 +15,9 @@
             <li *ngFor="let item of menuItems">
                 <a 
                     routerLink="/{{item.path}}" 
-                    routerLinkActive="bg-gray-800"
+                    routerLinkActive="bg-gray-600 text-white font-semibold border-r-gray-400 border-r-4"
                     [routerLinkActiveOptions]="{exact: true}"
-                    class="px-4 py-2 hover:bg-gray-600 flex items-center cursor-pointer"
+                    class="px-4 py-2 hover:bg-gray-700 flex items-center cursor-pointer"
                 >
                     <span class="ml-2">{{item.title}}</span>
                 </a>
