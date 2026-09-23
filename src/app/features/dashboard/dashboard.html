@@ -7,18 +7,10 @@
 
     <!-- Stats Cards -->
     <div class="flex flex-1 flex-col gap-4 md:flex-row">
-        
-        <div class="flex-1 bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-            <h2 class="text-lg font-semibold">Total Users</h2>
-            <p class="text-2xl font-bold">1,234</p>
-        </div>
-        <div class="flex-1 bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-            <h2 class="text-lg font-semibold">Active Sessions</h2>
-            <p class="text-2xl font-bold">567</p>
-        </div>
-        <div class="flex-1 bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-            <h2 class="text-lg font-semibold">Revenue</h2>
-            <p class="text-2xl font-bold">$12,345</p>
-        </div>
+
+        @for (stat of dashboardStats; track stat.title) {
+            <app-stats-sm [title]="stat.title" [value]="stat.value"></app-stats-sm>
+        }
+
     </div>
 </section>
