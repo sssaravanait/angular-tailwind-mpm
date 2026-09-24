@@ -2,4 +2,5 @@ export const environment = {
     production: true,
     primeUiLicense: 'eyJpZCI6IjBjNmM3ZjBlLWE2MzUtNDYxZC05ZThmLTBkMmFiYWY0MzY2YSIsInByb2R1Y3QiOiJwcmltZXVpIiwidGllciI6ImNvbW11bml0eSIsInR5cGUiOiJkZXYiLCJpYXQiOjE3OTAyNDU4NjMsImV4cCI6MTgyMTc4MTg2M30.HqJ2weBXyEV8dwa5KFVADdRmniB-jg08dsHU4nzjP_5Y_cw5fGlX2WUSPu1qOdVdgiz8VrHGduoIRggLqdSoAg',
     apiUrl: 'http://192.168.1.16:8000/',
+    apiToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTkyLjE2OC4xLjE2OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3OTAyNTM1NDEsImV4cCI6MTc5MDg1ODM0MSwibmJmIjoxNzkwMjUzNTQxLCJqdGkiOiIyV3h6NDh3YmFuTGxlbTVGIiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjciLCJjb21wYW55SWQiOjF9.PmsoRzCs52nzONDATxaGlQwGUdqMMdo6y_-drpcnh1s',
 };
