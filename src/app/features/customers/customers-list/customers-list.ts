@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputTextModule } from 'primeng/inputtext';
 
@@ -9,14 +10,14 @@ export interface Customer {
     email: string;
     phone: string;
 }
-
 @Component({
-    imports: [TableModule, InputTextModule, IconFieldModule],
+    imports: [TableModule, InputTextModule, IconFieldModule, ButtonModule],
     selector: 'app-customers-list',
     styleUrls: ['./customers-list.css'],
     templateUrl: './customers-list.html',
 })
 export class CustomersList {
+    pageTitle: string =  'Customers List';
     readonly customers: Customer[] = [
         { id: 1, name: 'Aarav Sharma', email: 'aarav.sharma@example.com', phone: '+91 98765 43210' },
         { id: 2, name: 'Priya Nair', email: 'priya.nair@example.com', phone: '+91 98220 11223' },
