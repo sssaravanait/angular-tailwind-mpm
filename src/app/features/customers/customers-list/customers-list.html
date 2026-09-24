@@ -1,1 +1,44 @@
-<p>customers-list works!</p>
+<p-table
+    #dt 
+    [value]="customers" 
+    dataKey="id" 
+    [tableStyle]="{ 'min-width': '50rem' }" 
+    [paginator]="true" 
+    [rows]="10"
+    [rowsPerPageOptions]="[5, 10, 20]" 
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} customers"
+    [globalFilterFields]="['name', 'email', 'phone']"
+>
+    <ng-template #caption>
+        <div class="justify-end">
+            <p-icon-field>
+                <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Search customers" />
+            </p-icon-field>
+        </div>
+    </ng-template>
+
+    <ng-template #header>
+        <tr>
+            <th pSortableColumn="id">Id</th>
+            <th pSortableColumn="name">Name</th>
+            <th pSortableColumn="email">Email</th>
+            <th pSortableColumn="phone">Phone</th>
+        </tr>
+    </ng-template>
+
+    <ng-template #body let-customer>
+        <tr>
+            <td>{{ customer.id }}</td>
+            <td>{{ customer.name }}</td>
+            <td>{{ customer.email }}</td>
+            <td>{{ customer.phone }}</td>
+        </tr>
+    </ng-template>
+
+    <ng-template #emptymessage>
+        <tr>
+            <td colspan="4" class="text-center">No customers found.</td>
+        </tr>
+    </ng-template>
+</p-table>
