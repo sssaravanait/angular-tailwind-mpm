@@ -1,46 +1,50 @@
 <div class="gap-3 p-4 bg-olive-50 dark:bg-amber-900 rounded-lg shadow-md">
     <div class="flex justify-between items-center mb-4">
-        <h1 class="text-2xl font-bold">{{ pageTitle }}</h1> <!-- Using pageTitle from component -->
+        <h1 class="text-2xl font-bold">{{ pageTitle }}</h1>
         <button pButton type="button" icon="pi pi-plus" class="p-button-success">Add Customer</button>
     </div>
 
     @if (error()) {
         <div class="flex justify-between items-center p-3 mb-3 text-red-700 bg-red-100 rounded" role="alert">
             <span>{{ error() }}</span>
-            <button pButton type="button" label="Retry" icon="pi pi-refresh" class="p-button-sm" (click)="loadCustomers()"></button>
+            <button pButton type="button" label="Retry" icon="pi pi-refresh" class="p-button-sm" (click)="retryLoadCustomers()"></button>
         </div>
     }
 
     <div class="w-full">
         <p-table
             #dt
-            dataKey="id"
             [value]="customers()"
-            sortField="initialSortField()"
-            [sortOrder]="initialSortOrder()"
+            dataKey="id"
+            [lazy]="true"                            
+            (onLazyLoad)="loadCustomersLazy($event)" 
+            [totalRecords]="totalRecords()"          
+            [rows]="10"                              
+            [rowsPerPageOptions]="[10, 25, 50]"      
+            [paginator]="true"                       
+            [first]="first()"                        
             [tableStyle]="{ 'min-width': '50rem' }"
             [globalFilterFields]="['name', 'phone', 'email']"
-            [scrollable]="true" 
+            [scrollable]="true"
             scrollHeight="500px"
             showGridlines
             [resizableColumns]="true"
-            /* [paginator]="true" 
-            [rows]="10" 
-            [rowsPerPageOptions]="[10, 25, 50]" */
             [loading]="loading()"
             [pt]="{ loadingIcon: { class: 'w-auto! h-auto!' } }"
         >
             <ng-template #caption>
-                <div class="justify-end">
-                    <p-icon-field>
-                        <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Search customers" />
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-semibold">Customers List</h2>
+                    <p-icon-field iconPosition="left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Search customers" class="w-full sm:w-auto" />
                     </p-icon-field>
                 </div>
             </ng-template>
 
             <ng-template #loadingicon>
                 <div class="flex flex-col items-center gap-2">
-                    <svg data-p-icon="spinner" [size]="40" class="animate-spin text-primary" />
+                    <svg data-p-icon="spinner" class="animate-spin text-primary" />
                     <span class="text-sm text-surface-600 dark:text-surface-300">Loading...</span>
                 </div>
             </ng-template>
@@ -97,9 +101,9 @@
                     <td>{{ customer.phone || '-' }}</td>
                     <td>{{ customer.email || '-' }}</td>
                     <td>{{ customer.is_active ? 'Yes' : 'No' }}</td>
-                    <td>{{ customer.source.toUpperCase() || '-' }}</td>
+                    <td>{{ customer.source?.toUpperCase() || '-' }}</td>
                     <td>{{ customer.device || '-' }}</td>
-                    <td>{{ customer.created_at || '-' }}</td>
+                    <td>{{ (customer.created_at | date:'mediumDate') || '-' }}</td>
                 </tr>
             </ng-template>
 
@@ -115,18 +119,5 @@
                 </tr>
             </ng-template>
         </p-table>
-
-        @if (!loading() && totalCustomers() > 0) {
-            <div class="flex justify-between items-center mt-3">
-                <span>
-                    Showing {{ customers().length ? ((currentPage() - 1) * 10) + 1 : 0 }} to {{ ((currentPage() - 1) * 10) + customers().length }} of {{ totalCustomers() }} customers
-                </span>
-                <div class="flex gap-2">
-                    <button pButton type="button" icon="pi pi-chevron-left" aria-label="Previous page" [disabled]="currentPage() === 1" (click)="previousPage()"><span><-</span></button>
-                    <span class="p-2">Page {{ currentPage() }} of {{ lastPage() }}</span>
-                    <button pButton type="button" icon="pi pi-chevron-right" aria-label="Next page" [disabled]="currentPage() === lastPage()" (click)="nextPage()"><span>-></span></button>
-                </div>
-            </div>
-        }
     </div>
 </div>
