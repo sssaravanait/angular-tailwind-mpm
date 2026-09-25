@@ -1,21 +1,34 @@
 <div class="gap-3 p-4 bg-olive-50 dark:bg-amber-900 rounded-lg shadow-md">
     <div class="flex justify-between items-center mb-4">
-        <h1 class="text-2xl font-bold">Customers List</h1>
-        <button pButton icon="pi pi-plus" class="p-button-success">Add Customer</button>
+        <h1 class="text-2xl font-bold">{{ pageTitle }}</h1> <!-- Using pageTitle from component -->
+        <button pButton type="button" icon="pi pi-plus" class="p-button-success">Add Customer</button>
     </div>
 
-    <div class="flex w-full">
+    @if (error()) {
+        <div class="flex justify-between items-center p-3 mb-3 text-red-700 bg-red-100 rounded" role="alert">
+            <span>{{ error() }}</span>
+            <button pButton type="button" label="Retry" icon="pi pi-refresh" class="p-button-sm" (click)="loadCustomers()"></button>
+        </div>
+    }
+
+    <div class="w-full">
         <p-table
-            #dt 
-            [value]="customers" 
-            dataKey="id" 
-            [tableStyle]="{ 'min-width': '50rem', 'width': '100%' }" 
-            [paginator]="true" 
-            [rows]="10"
-            [rowsPerPageOptions]="[5, 10, 20]" 
-            [showCurrentPageReport]="true"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} customers"
-            [globalFilterFields]="['name', 'email', 'phone']"
+            #dt
+            dataKey="id"
+            [value]="customers()"
+            sortField="initialSortField()"
+            [sortOrder]="initialSortOrder()"
+            [tableStyle]="{ 'min-width': '50rem' }"
+            [globalFilterFields]="['name', 'phone', 'email']"
+            [scrollable]="true" 
+            scrollHeight="500px"
+            showGridlines
+            [resizableColumns]="true"
+            /* [paginator]="true" 
+            [rows]="10" 
+            [rowsPerPageOptions]="[10, 25, 50]" */
+            [loading]="loading()"
+            [pt]="{ loadingIcon: { class: 'w-auto! h-auto!' } }"
         >
             <ng-template #caption>
                 <div class="justify-end">
@@ -25,29 +38,95 @@
                 </div>
             </ng-template>
 
+            <ng-template #loadingicon>
+                <div class="flex flex-col items-center gap-2">
+                    <svg data-p-icon="spinner" [size]="40" class="animate-spin text-primary" />
+                    <span class="text-sm text-surface-600 dark:text-surface-300">Loading...</span>
+                </div>
+            </ng-template>
+
             <ng-template #header>
                 <tr>
-                    <th pSortableColumn="id">Id</th>
-                    <th pSortableColumn="name">Name</th>
-                    <th pSortableColumn="email">Email</th>
-                    <th pSortableColumn="phone">Phone</th>
+                    <th pResizableColumn pSortableColumn="name">
+                        <div class="flex gap-2">
+                            Name
+                            <p-sort-icon field="name" />
+                        </div>
+                    </th>
+                    <th pResizableColumn pSortableColumn="phone">
+                        <div class="flex gap-2">
+                            Phone
+                            <p-sort-icon field="phone" />
+                        </div>
+                    </th>
+                    <th pResizableColumn pSortableColumn="email">
+                        <div class="flex gap-2">
+                            Email
+                            <p-sort-icon field="email" />
+                        </div>
+                    </th>
+                    <th pResizableColumn>
+                        <div class="flex gap-2">
+                            Is Active
+                        </div>
+                    </th>
+                    <th pResizableColumn pSortableColumn="source">
+                        <div class="flex gap-2">
+                            Source
+                            <p-sort-icon field="source" />
+                        </div>
+                    </th>
+                    <th pResizableColumn>
+                        <div class="flex gap-2">
+                            Device
+                            <p-sort-icon field="device" />
+                        </div>
+                    </th>
+                    <th pResizableColumn pSortableColumn="created_at">
+                        <div class="flex gap-2">
+                            Registered Date
+                            <p-sort-icon field="created_at" />
+                        </div>
+                    </th>
                 </tr>
             </ng-template>
 
             <ng-template #body let-customer>
                 <tr>
-                    <td>{{ customer.id }}</td>
-                    <td>{{ customer.name }}</td>
-                    <td>{{ customer.email }}</td>
-                    <td>{{ customer.phone }}</td>
+                    <td>{{ customer.name }} {{ customer.surname }}</td>
+                    <td>{{ customer.phone || '-' }}</td>
+                    <td>{{ customer.email || '-' }}</td>
+                    <td>{{ customer.is_active ? 'Yes' : 'No' }}</td>
+                    <td>{{ customer.source.toUpperCase() || '-' }}</td>
+                    <td>{{ customer.device || '-' }}</td>
+                    <td>{{ customer.created_at || '-' }}</td>
                 </tr>
             </ng-template>
 
             <ng-template #emptymessage>
                 <tr>
-                    <td colspan="4" class="text-center">No customers found.</td>
+                    <td colspan="7" class="text-center justify-center">
+                        @if (loading()) {
+                            <span>Loading customers...</span>
+                        } @else {
+                            <span>No customers found.</span>
+                        }
+                    </td>
                 </tr>
             </ng-template>
         </p-table>
+
+        @if (!loading() && totalCustomers() > 0) {
+            <div class="flex justify-between items-center mt-3">
+                <span>
+                    Showing {{ customers().length ? ((currentPage() - 1) * 10) + 1 : 0 }} to {{ ((currentPage() - 1) * 10) + customers().length }} of {{ totalCustomers() }} customers
+                </span>
+                <div class="flex gap-2">
+                    <button pButton type="button" icon="pi pi-chevron-left" aria-label="Previous page" [disabled]="currentPage() === 1" (click)="previousPage()"><span><-</span></button>
+                    <span class="p-2">Page {{ currentPage() }} of {{ lastPage() }}</span>
+                    <button pButton type="button" icon="pi pi-chevron-right" aria-label="Next page" [disabled]="currentPage() === lastPage()" (click)="nextPage()"><span>-></span></button>
+                </div>
+            </div>
+        }
     </div>
 </div>
