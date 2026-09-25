@@ -8,25 +8,9 @@ import { ButtonModule } from 'primeng/button';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputTextModule } from 'primeng/inputtext';
 import { environment } from '../../../../environments/environment';
+import { Customer } from '../customer.interface';
 import { Spinner } from '@primeicons/angular/spinner';
 import { TableLazyLoadEvent } from 'primeng/table'; // Import for lazy load event
-
-export interface Customer {
-    id: number;
-    title: string | null;
-    education: string | null;
-    name: string | null;
-    surname: string | null;
-    birth_date: string | null;
-    city: string | null;
-    phone: string | null;
-    email: string | null;
-    is_active: boolean;
-    source: string | null;
-    device: string | null;
-    created_at: string | null;
-    updated_at: string | null;
-}
 
 interface CustomersResponse {
     current_page: number;
