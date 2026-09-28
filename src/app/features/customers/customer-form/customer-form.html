@@ -1,59 +1,75 @@
 <div class="gap-3 p-4 bg-olive-50 dark:bg-blue-200 rounded-lg shadow-md">
     <div class="justify-center">
 
-        <h2 class="text-2xl font-bold text-center mb-4">Customer Details</h2>
-
-        <form action="" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 p-3 max-w-4xl mx-auto">
+        <form [formGroup]="customerForm" (ngSubmit)="onSubmit()" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 p-3 max-w-4xl mx-auto">
             <!-- Row 1: Title, Name -->
             <div class="flex flex-col">
                 <label pLabel for="title" class="mb-1">Title</label>
-                <input pInputText id="title" type="text" class="w-full" />
+                <input pInputText id="title" type="text" class="w-full" formControlName="title"
+                    [class.ng-invalid]="customerForm.get('title')?.invalid && customerForm.get('title')?.touched" />
+                <small class="text-red-500 gap-2 p-1">{{ getErrorMessage('title') }}</small>
             </div>
             <div class="flex flex-col">
                 <label pLabel for="name" class="mb-1">Name</label>
-                <input pInputText id="name" type="text" class="w-full" />
+                <input pInputText id="name" type="text" class="w-full" formControlName="name"
+                    [class.ng-invalid]="customerForm.get('name')?.invalid && customerForm.get('name')?.touched" />
+                <small class="text-red-500 gap-2 p-1">{{ getErrorMessage('name') }}</small>
             </div>
 
             <!-- Row 2: Surname, Birthday -->
             <div class="flex flex-col">
                 <label pLabel for="surname" class="mb-1">Surname</label>
-                <input pInputText id="surname" type="text" class="w-full" />
+                <input pInputText id="surname" type="text" class="w-full" formControlName="surname"
+                    [class.ng-invalid]="customerForm.get('surname')?.invalid && customerForm.get('surname')?.touched" />
+                <small class="text-red-500 gap-2 p-1">{{ getErrorMessage('surname') }}</small>
             </div>
             <div class="flex flex-col">
-                <label pLabel for="birthday" class="mb-1">Birthday</label>
-                <p-datepicker [(ngModel)]="customer.birth_date" dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy" pInputMask="99/99/9999" [keepCharPositions]="true" />
+                <label pLabel for="birth_date" class="mb-1">Birthday</label>
+                <p-datepicker dateFormat="dd/mm/yy" placeholder="dd/mm/yyyy" pInputMask="99/99/9999" [keepCharPositions]="true" formControlName="birth_date"
+                [class.ng-invalid]="customerForm.get('birth_date')?.invalid && customerForm.get('birth_date')?.touched" />
+                <small class="text-red-500 gap-2 p-1">{{ getErrorMessage('birth_date') }}</small>
             </div>
 
             <!-- Row 3: Gender, Education -->
             <div class="flex flex-col">
                 <label pLabel for="gender" class="mb-1">Gender</label>
-                <p-select [options]="genders" [(ngModel)]="customer.gender" optionLabel="label" optionValue="value" placeholder="Select a gender" class="w-full" />
+                <p-select [options]="gendersArray" optionLabel="label" optionValue="value" placeholder="Select a gender" class="w-full" formControlName="gender"
+                    [class.ng-invalid]="customerForm.get('gender')?.invalid && customerForm.get('gender')?.touched" />
+                <small class="text-red-500 gap-2 p-1">{{ getErrorMessage('gender') }}</small>
 
             </div>
             <div class="flex flex-col">
                 <label pLabel for="education" class="mb-1">Education</label>
-                <input pInputText id="education" type="text" class="w-full" />
+                <input pInputText id="education" type="text" class="w-full" formControlName="education" />
             </div>
 
             <!-- Row 4: Email, Phone -->
             <div class="flex flex-col">
                 <label pLabel for="email" class="mb-1">Email</label>
-                <input pInputText id="email" type="text" class="w-full" />
+                <input pInputText id="email" type="email" class="w-full" formControlName="email"
+                    [class.ng-invalid]="customerForm.get('email')?.invalid && customerForm.get('email')?.touched" />
+                <small class="text-red-500 gap-2 p-1">{{ getErrorMessage('email') }}</small>
             </div>
             <div class="flex flex-col">
                 <label pLabel for="phone" class="mb-1">Phone</label>
                 <!-- For phone, p-inputMask is good, but ensure it's imported and bound -->
-                <input pInputText id="phone" type="text" class="w-full" />
+                <input pInputText id="phone" type="number" class="w-full" formControlName="phone"
+                    [class.ng-invalid]="customerForm.get('phone')?.invalid && customerForm.get('phone')?.touched" />
+                <small class="text-red-500 gap-2 p-1">{{ getErrorMessage('phone') }}</small>
             </div>
 
             <!-- Row 5: City, Street -->
             <div class="flex flex-col">
                 <label pLabel for="city" class="mb-1">City</label>
-                <p-select [options]="cities" [(ngModel)]="customer.city" optionLabel="label" optionValue="id" placeholder="Select a city" class="w-full" />
+                <p-select [options]="citiesArray" optionLabel="label" optionValue="id" placeholder="Select a city" class="w-full" formControlName="city"
+                    [class.ng-invalid]="customerForm.get('city')?.invalid && customerForm.get('city')?.touched" />
+                <small class="text-red-500 gap-2 p-1">{{ getErrorMessage('city') }}</small>
             </div>
             <div class="flex flex-col">
                 <label pLabel for="street" class="mb-1">Street</label>
-                <input pInputText id="street" type="text" class="w-full" />
+                <input pInputText id="street" type="text" class="w-full" formControlName="street"
+                    [class.ng-invalid]="customerForm.get('street')?.invalid && customerForm.get('street')?.touched" />
+                <small class="text-red-500 gap-2 p-1">{{ getErrorMessage('street') }}</small>
             </div>
 
             <!-- Form Actions: Submit and Cancel Buttons -->

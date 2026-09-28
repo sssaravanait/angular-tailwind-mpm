@@ -1,22 +1,21 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, DestroyRef, inject, signal, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { finalize } from 'rxjs';
 
-import { FormsModule } from '@angular/forms';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputTextModule } from 'primeng/inputtext';
 import { Dialog, DialogModule } from 'primeng/dialog';
 import { LabelModule } from 'primeng/label';
 import { ButtonModule } from 'primeng/button';
 import { TableModule, TableLazyLoadEvent } from 'primeng/table';
-
 import { Spinner } from '@primeicons/angular/spinner';
 
 import { environment } from '../../../../environments/environment';
 import { CustomerForm } from '../customer-form/customer-form';
-import { Customer } from '../customer.interface';
+import { Customer } from '../../../shared/common.interfaces';
 
 interface CustomersResponse {
     current_page: number;

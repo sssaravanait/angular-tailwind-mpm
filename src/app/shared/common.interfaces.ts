@@ -15,3 +15,13 @@ export interface Customer {
     created_at: string | null;
     updated_at: string | null;
 }
+
+export interface Gender {
+    label: string;
+    value: string;
+}
+
+export interface City {
+    id: number;
+    label: string;
+}
