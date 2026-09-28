@@ -1,1 +1,128 @@
-<p>customers-list works!</p>
+<div class="gap-3 p-4 bg-olive-50 dark:bg-amber-900 rounded-lg shadow-md">
+    <div class="flex justify-between items-center mb-4">
+        <h1 class="text-2xl font-bold">{{ pageTitle }}</h1>
+        <button pButton type="button" icon="pi pi-plus" (click)="showCreateCustomerModal = true">Create Customer</button>
+    </div>
+
+    @if (error()) {
+        <div class="flex justify-between items-center p-3 mb-3 text-red-700 bg-red-100 rounded" role="alert">
+            <span>{{ error() }}</span>
+            <button pButton type="button" label="Retry" icon="pi pi-refresh" class="p-button-sm" (click)="retryLoadCustomers()"></button>
+        </div>
+    }
+
+    <div class="w-full">
+        <p-table
+            #dt
+            [value]="customers()"
+            dataKey="id"
+            [lazy]="true"                            
+            (onLazyLoad)="loadCustomersLazy($event)" 
+            [totalRecords]="totalRecords()"          
+            [rows]="10"                              
+            [rowsPerPageOptions]="[10, 25, 50]"      
+            [paginator]="true"                       
+            [first]="first()"                        
+            [tableStyle]="{ 'min-width': '50rem' }"
+            [globalFilterFields]="['name', 'phone', 'email']"
+            [scrollable]="true"
+            scrollHeight="500px"
+            showGridlines
+            [resizableColumns]="true"
+            [loading]="loading()"
+            [pt]="{ loadingIcon: { class: 'w-auto! h-auto!' } }"
+        >
+            <ng-template #caption>
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-semibold">Customers List</h2>
+                    <p-icon-field iconPosition="left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Search customers" class="w-full sm:w-auto" />
+                    </p-icon-field>
+                </div>
+            </ng-template>
+
+            <ng-template #loadingicon>
+                <div class="flex flex-col items-center gap-2">
+                    <svg data-p-icon="spinner" class="animate-spin text-primary" />
+                    <span class="text-sm text-surface-600 dark:text-surface-300">Loading...</span>
+                </div>
+            </ng-template>
+
+            <ng-template #header>
+                <tr>
+                    <th pResizableColumn pSortableColumn="name">
+                        <div class="flex gap-2">
+                            Name
+                            <p-sort-icon field="name" />
+                        </div>
+                    </th>
+                    <th pResizableColumn pSortableColumn="phone">
+                        <div class="flex gap-2">
+                            Phone
+                            <p-sort-icon field="phone" />
+                        </div>
+                    </th>
+                    <th pResizableColumn pSortableColumn="email">
+                        <div class="flex gap-2">
+                            Email
+                            <p-sort-icon field="email" />
+                        </div>
+                    </th>
+                    <th pResizableColumn>
+                        <div class="flex gap-2">
+                            Is Active
+                        </div>
+                    </th>
+                    <th pResizableColumn pSortableColumn="source">
+                        <div class="flex gap-2">
+                            Source
+                            <p-sort-icon field="source" />
+                        </div>
+                    </th>
+                    <th pResizableColumn>
+                        <div class="flex gap-2">
+                            Device
+                            <p-sort-icon field="device" />
+                        </div>
+                    </th>
+                    <th pResizableColumn pSortableColumn="created_at">
+                        <div class="flex gap-2">
+                            Registered Date
+                            <p-sort-icon field="created_at" />
+                        </div>
+                    </th>
+                </tr>
+            </ng-template>
+
+            <ng-template #body let-customer>
+                <tr>
+                    <td>{{ customer.name }} {{ customer.surname }}</td>
+                    <td>{{ customer.phone || '-' }}</td>
+                    <td>{{ customer.email || '-' }}</td>
+                    <td>{{ customer.is_active ? 'Yes' : 'No' }}</td>
+                    <td>{{ customer.source?.toUpperCase() || '-' }}</td>
+                    <td>{{ customer.device || '-' }}</td>
+                    <td>{{ (customer.created_at | date:'mediumDate') || '-' }}</td>
+                </tr>
+            </ng-template>
+
+            <ng-template #emptymessage>
+                <tr>
+                    <td colspan="7" class="text-center justify-center">
+                        @if (loading()) {
+                            <span>Loading customers...</span>
+                        } @else {
+                            <span>No customers found.</span>
+                        }
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <!-- Create Customer Modal -->
+    <p-dialog header="Create Customer" [(visible)]="showCreateCustomerModal" [modal]="true" [closable]="true" [dismissableMask]="true" [style]="{ width: '50vw' }">
+        <app-customer-form></app-customer-form>
+    </p-dialog>
+</div>
