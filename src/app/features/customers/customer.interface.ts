@@ -4,7 +4,8 @@ export interface Customer {
     education: string | null;
     name: string | null;
     surname: string | null;
-    birth_date: string | null;
+    birth_date: Date | null;
+    gender: string | null;
     city: string | null;
     phone: string | null;
     email: string | null;

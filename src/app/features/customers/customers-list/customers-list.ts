@@ -3,14 +3,20 @@ import { Component, DestroyRef, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
-import { TableModule } from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
+
+import { FormsModule } from '@angular/forms';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputTextModule } from 'primeng/inputtext';
-import { environment } from '../../../../environments/environment';
-import { Customer } from '../customer.interface';
+import { Dialog, DialogModule } from 'primeng/dialog';
+import { LabelModule } from 'primeng/label';
+import { ButtonModule } from 'primeng/button';
+import { TableModule, TableLazyLoadEvent } from 'primeng/table';
+
 import { Spinner } from '@primeicons/angular/spinner';
-import { TableLazyLoadEvent } from 'primeng/table'; // Import for lazy load event
+
+import { environment } from '../../../../environments/environment';
+import { CustomerForm } from '../customer-form/customer-form';
+import { Customer } from '../customer.interface';
 
 interface CustomersResponse {
     current_page: number;
@@ -30,7 +36,20 @@ interface CustomersResponse {
 }
 
 @Component({
-    imports: [TableModule, InputTextModule, IconFieldModule, ButtonModule, Spinner, CommonModule],
+    imports: [
+        TableModule, 
+        InputTextModule, 
+        IconFieldModule,
+        Spinner, 
+        CommonModule,
+        DialogModule, 
+        Dialog,
+        ButtonModule, 
+        InputTextModule, 
+        LabelModule, 
+        FormsModule,
+        CustomerForm,
+    ],
     selector: 'app-customers-list',
     styleUrls: ['./customers-list.css'],
     templateUrl: './customers-list.html',
@@ -51,6 +70,8 @@ export class CustomersList implements OnInit {
     // Assuming 'name' ascending as default
     initialSortField = signal('created_at');
     initialSortOrder = signal(-1); // 1 for ascending, -1 for descending
+
+    showCreateCustomerModal = false;
 
     ngOnInit(): void {
         // No initial loadCustomers call here, as onLazyLoad will handle the first fetch
