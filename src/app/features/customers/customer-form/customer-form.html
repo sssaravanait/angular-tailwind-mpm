@@ -52,8 +52,7 @@
             </div>
             <div class="flex flex-col">
                 <label pLabel for="phone" class="mb-1">Phone</label>
-                <!-- For phone, p-inputMask is good, but ensure it's imported and bound -->
-                <input pInputText id="phone" type="number" class="w-full" formControlName="phone"
+                <input pInputText id="phone" type="text" class="w-full" formControlName="phone"
                     [class.ng-invalid]="customerForm.get('phone')?.invalid && customerForm.get('phone')?.touched" />
                 <small class="text-red-500 gap-2 p-1">{{ getErrorMessage('phone') }}</small>
             </div>
@@ -75,7 +74,7 @@
             <!-- Form Actions: Submit and Cancel Buttons -->
             <!-- These buttons span across both columns and are aligned to the right -->
             <div class="col-span-full flex justify-end gap-3 mt-4">
-                <button pButton type="button" icon="pi pi-times" class="p-button-secondary">Cancel</button>
+                <button pButton type="button" icon="pi pi-times" class="p-button-secondary" (click)="closeModal.emit()">Cancel</button>
                 <button pButton type="submit" icon="pi pi-check">Submit</button>
             </div>
         </form>

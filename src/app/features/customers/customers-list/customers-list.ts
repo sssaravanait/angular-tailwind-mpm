@@ -70,7 +70,7 @@ export class CustomersList implements OnInit {
     initialSortField = signal('created_at');
     initialSortOrder = signal(-1); // 1 for ascending, -1 for descending
 
-    showCreateCustomerModal = false;
+    showCreateCustomerModal = signal<boolean>(false);
 
     ngOnInit(): void {
         // No initial loadCustomers call here, as onLazyLoad will handle the first fetch

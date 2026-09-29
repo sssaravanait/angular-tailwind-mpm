@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
@@ -33,6 +33,9 @@ import { genders, cities } from '../../../shared/common.constants';
 })
 export class CustomerForm {
     private fb = inject(FormBuilder);
+
+    openModal = input<boolean>(false);
+    closeModal = output<void>();
 
     customer: Customer = {
         id: 0,
@@ -130,5 +133,7 @@ export class CustomerForm {
         this.customer = { ...this.customer, ...this.customerForm.getRawValue() };
         
         console.log('Updated Customer Object:', this.customer);
+
+        this.closeModal.emit();
     }
 }

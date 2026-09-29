@@ -1,7 +1,7 @@
 <div class="gap-3 p-4 bg-olive-50 dark:bg-amber-900 rounded-lg shadow-md">
     <div class="flex justify-between items-center mb-4">
         <h1 class="text-2xl font-bold">{{ pageTitle }}</h1>
-        <button pButton type="button" icon="pi pi-plus" (click)="showCreateCustomerModal = true">Create Customer</button>
+        <button pButton type="button" icon="pi pi-plus" (click)="showCreateCustomerModal.set(true)">Create Customer</button>
     </div>
 
     @if (error()) {
@@ -121,8 +121,21 @@
         </p-table>
     </div>
 
-    <!-- Create Customer Modal -->
-    <p-dialog header="Create Customer" [(visible)]="showCreateCustomerModal" [modal]="true" [closable]="true" [dismissableMask]="true" [style]="{ width: '50vw' }">
-        <app-customer-form></app-customer-form>
-    </p-dialog>
+    @if (showCreateCustomerModal()) {
+        <!-- Create Customer Modal -->
+        <p-dialog 
+            header="Create Customer" 
+            [visible]="true" 
+            [modal]="true" 
+            [closable]="true" 
+            [dismissableMask]="true" 
+            (onHide)="showCreateCustomerModal.set(false)"
+            [style]="{ width: '50vw' }">
+
+            <app-customer-form 
+                [openModal]="showCreateCustomerModal()"
+                (closeModal)="showCreateCustomerModal.set(false)">
+            </app-customer-form>
+        </p-dialog>
+    }
 </div>
