@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, DestroyRef, inject, signal, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -48,6 +49,7 @@ interface CustomersResponse {
         LabelModule, 
         FormsModule,
         CustomerForm,
+        RouterLink,
     ],
     selector: 'app-customers-list',
     styleUrls: ['./customers-list.css'],

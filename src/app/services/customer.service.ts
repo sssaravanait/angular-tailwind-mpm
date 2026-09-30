@@ -17,10 +17,23 @@ export class CustomerService {
         });
     }
 
+    /**
+     * Create a new customer
+     */
     createCustomer(customer: Partial<Customer>): Observable<Customer> {
         // DRY: Centralized headers and URL logic
-        return this.http.post<Customer>(this.apiUrl, customer, { 
-            headers: this.getHeaders() 
+        return this.http.post<Customer>(this.apiUrl, customer, {
+            headers: this.getHeaders(),
+        });
+    }
+
+    /**
+     * Get a single customer by ID
+     * Path: /api/people/{id}
+     */
+    getCustomer(id: number): Observable<Customer> {
+        return this.http.get<Customer>(`${this.apiUrl}/${id}`, {
+            headers: this.getHeaders(),
         });
     }
 }

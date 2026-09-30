@@ -1,8 +1,11 @@
 import { AppRoute } from './app-route.interface';
 import { Dashboard } from './features/dashboard/dashboard';
+
 import { CustomersList } from './features/customers/customers-list/customers-list';
-import { AppUsersList } from './features/app-users/app-users-list/app-users-list';
+import { CustomersView } from './features/customers/customers-view/customers-view';
 import { CustomerForm } from './features/customers/customer-form/customer-form';
+
+import { AppUsersList } from './features/app-users/app-users-list/app-users-list';
 import { AppUserForm } from './features/app-users/app-user-form/app-user-form';
 
 export const routes: AppRoute[] = [
@@ -11,6 +14,7 @@ export const routes: AppRoute[] = [
 
     // Customer module routes
     { path: 'customers', title: 'Customers', component: CustomersList, showInMenu: true },
+    { path: 'customers/:id', title: 'Customer Details', component: CustomersView },
     { path: 'customers/create', title: 'Create Customer', component: CustomerForm },
     { path: 'customers/:id/edit', title: 'Edit Customer', component: CustomerForm },
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { routes } from '../../app.routes';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
@@ -7,7 +7,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
     selector: 'app-sidebar',
     styleUrls: ['./sidebar.css'],
     templateUrl: './sidebar.html',
-    imports: [RouterLink, RouterLinkActive, NgFor],
+    imports: [RouterLink, RouterLinkActive, CommonModule],
 })
 export class Sidebar {
     menuItems = routes.filter(route => route.showInMenu );

@@ -105,7 +105,10 @@
 
             <ng-template #body let-customer>
                 <tr>
-                    <td>{{ customer.id }}</td>
+                    <td>
+                        <a [routerLink]="['/customers', customer.id]" 
+                        class="text-blue-600 hover:text-blue-800 transition-colors duration-200 underline-offset-4 hover:underline cursor-pointer">{{ customer.id }}</a>
+                    </td>
                     <td>{{ customer.name }} {{ customer.surname }}</td>
                     <td>{{ customer.phone || '-' }}</td>
                     <td>{{ customer.email || '-' }}</td>
