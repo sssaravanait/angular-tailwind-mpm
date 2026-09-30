@@ -13,9 +13,9 @@ import { ButtonModule } from 'primeng/button';
 import { TableModule, TableLazyLoadEvent } from 'primeng/table';
 import { Spinner } from '@primeicons/angular/spinner';
 
-import { environment } from '../../../../environments/environment';
+import { environment } from '@env/environment';
 import { CustomerForm } from '../customer-form/customer-form';
-import { Customer } from '../../../shared/common.interfaces';
+import { Customer } from '@shared/common.interfaces';
 
 interface CustomersResponse {
     current_page: number;
@@ -56,7 +56,7 @@ interface CustomersResponse {
 export class CustomersList implements OnInit {
     private readonly http = inject(HttpClient);
     private readonly destroyRef = inject(DestroyRef);
-    private readonly apiUrl = `${environment.apiUrl.replace(/\/$/, '')}/api/people`;
+    private readonly apiUrl = `${environment.apiUrl}api/people`;
 
     readonly pageTitle = 'Customers List';
     customers = signal<Customer[]>([]);
@@ -96,13 +96,14 @@ export class CustomersList implements OnInit {
 
         // Add sorting parameters if available
         if (event.sortField) {
-            params = params.set('sort_by', event.sortField!.toString());
-            params = params.set('sort_order', event.sortOrder === 1 ? 'asc' : 'desc');
+            let sortBy = (event.sortField!.toString());
+            sortBy = (event.sortOrder === 1) ? sortBy : '-'+sortBy;
+            params = params.set('sort_by', sortBy);
         }
 
         // Add global filter parameter if available
         if (event.globalFilter) {
-             params = params.set('search', event.globalFilter.toString());
+            params = params.set('search', event.globalFilter.toString());
         }
 
         this.http.get<CustomersResponse>(this.apiUrl, { headers, params }).pipe(

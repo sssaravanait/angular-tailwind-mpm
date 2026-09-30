@@ -1,6 +1,14 @@
 <div class="gap-3 p-4 bg-olive-50 dark:bg-blue-200 rounded-lg shadow-md">
     <div class="justify-center">
 
+        <!-- 1. Error Alert: Show only if submitError has a value -->
+        @if (submitError()) {
+            <div class="mb-4 p-3 text-red-700 bg-red-100 border border-red-400 rounded flex items-center gap-2">
+                <i class="pi pi-exclamation-circle"></i>
+                <span>{{ submitError() }}</span>
+            </div>
+        }
+
         <form [formGroup]="customerForm" (ngSubmit)="onSubmit()" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 p-3 max-w-4xl mx-auto">
             <!-- Row 1: Title, Name -->
             <div class="flex flex-col">
@@ -59,10 +67,10 @@
 
             <!-- Row 5: City, Street -->
             <div class="flex flex-col">
-                <label pLabel for="city" class="mb-1">City</label>
-                <p-select [options]="citiesArray" optionLabel="label" optionValue="id" placeholder="Select a city" class="w-full" formControlName="city"
-                    [class.ng-invalid]="customerForm.get('city')?.invalid && customerForm.get('city')?.touched" />
-                <small class="text-red-500 gap-2 p-1">{{ getErrorMessage('city') }}</small>
+                <label pLabel for="city_id" class="mb-1">City</label>
+                <p-select [options]="citiesArray" optionLabel="label" optionValue="id" placeholder="Select a city" class="w-full" formControlName="city_id"
+                    [class.ng-invalid]="customerForm.get('city_id')?.invalid && customerForm.get('city_id')?.touched" />
+                <small class="text-red-500 gap-2 p-1">{{ getErrorMessage('city_id') }}</small>
             </div>
             <div class="flex flex-col">
                 <label pLabel for="street" class="mb-1">Street</label>

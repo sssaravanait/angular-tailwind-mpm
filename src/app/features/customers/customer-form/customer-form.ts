@@ -1,6 +1,6 @@
-import { Component, inject, input, output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject, input, output, signal } from '@angular/core';
+import { FormsModule, FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 // PrimeNG Modules
 import { CardModule } from 'primeng/card';
@@ -11,13 +11,13 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { SelectModule } from 'primeng/select';
 import { InputMaskModule } from 'primeng/inputmask';
 
-
-import { Customer, Gender, City } from '../../../shared/common.interfaces';
-import { genders, cities } from '../../../shared/common.constants';
+import { environment } from '@env/environment';
+import { Customer, Gender, City } from '@shared/common.interfaces';
+import { genders, cities } from '@shared/common.constants';
+import { CustomerService } from '@services/customer.service';
 
 @Component({
     imports: [
-        FormsModule,
         CardModule,
         ButtonModule,
         InputTextModule,
@@ -25,6 +25,7 @@ import { genders, cities } from '../../../shared/common.constants';
         DatePickerModule,
         SelectModule,
         InputMaskModule,
+        FormsModule,
         ReactiveFormsModule,
     ],
     selector: 'app-customer-form',
@@ -33,9 +34,16 @@ import { genders, cities } from '../../../shared/common.constants';
 })
 export class CustomerForm {
     private fb = inject(FormBuilder);
+    private readonly http = inject(HttpClient);
+    private readonly customerService = inject(CustomerService);
 
     openModal = input<boolean>(false);
     closeModal = output<void>();
+    reloadCustomers = output<void>();
+
+    // Signal to handle HTTP errors in the UI
+    submitError = signal<string | null>(null);
+    isSubmitting = signal(false); // To disable button during request
 
     customer: Customer = {
         id: 0,
@@ -51,6 +59,7 @@ export class CustomerForm {
         is_active: false,
         source: null,
         device: null,
+        country_code: 'NG',
         created_at: null,
         updated_at: null,
     };
@@ -69,8 +78,9 @@ export class CustomerForm {
         education: [null, []],
         email: ['', [Validators.required, Validators.email]],
         phone: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-        city: [null, [Validators.required]],
+        city_id: [null, [Validators.required]],
         street: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
+        country_code: 'NG',
     });
 
     // Comprehensive Validation Message Map
@@ -103,7 +113,7 @@ export class CustomerForm {
             required: 'Phone number is required', 
             pattern: 'Phone must contain only numbers' 
         },
-        city: { 
+        city_id: { 
             required: 'City selection is required' 
         },
         street: { 
@@ -129,11 +139,25 @@ export class CustomerForm {
             return;
         }
         
-        // Map the form values back to your customer object
-        this.customer = { ...this.customer, ...this.customerForm.getRawValue() };
-        
-        console.log('Updated Customer Object:', this.customer);
+        this.submitError.set(null); // Reset error
+        this.isSubmitting.set(true); // Start loading
 
-        this.closeModal.emit();
+        const payload = this.customerForm.getRawValue();
+
+        payload.is_customer = true;
+        payload.is_primary = true;
+
+        this.customerService.createCustomer(payload).subscribe({
+            next: () => {
+                this.reloadCustomers.emit();
+                this.closeModal.emit();
+            },
+            error: (err) => {
+                this.isSubmitting.set(false);
+                const msg = err.error?.message || 'Failed to create customer. Please try again.';
+                this.submitError.set(msg);
+            },
+            complete: () => this.isSubmitting.set(false)
+        });
     }
 }

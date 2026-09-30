@@ -12,6 +12,7 @@ export interface Customer {
     is_active: boolean;
     source: string | null;
     device: string | null;
+    country_code: string | null;
     created_at: string | null;
     updated_at: string | null;
 }

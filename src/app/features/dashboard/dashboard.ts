@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { StatsSm } from '../../shared/components/stats-sm/stats-sm';
+import { StatsSm } from '@shared/components/stats-sm/stats-sm';
 
 @Component({
     imports: [StatsSm],
