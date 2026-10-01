@@ -36,4 +36,16 @@ export class CustomerService {
             headers: this.getHeaders(),
         });
     }
+
+    /**
+     * Update an existing customer
+     * Path: /api/people/{id}
+     * @param id The unique ID of the customer to update
+     * @param customer The updated customer data
+     */
+    updateCustomer(id: number, customer: Partial<Customer>): Observable<Customer> {
+        return this.http.put<Customer>(`${this.apiUrl}/${id}`, customer, {
+            headers: this.getHeaders(),
+        });
+    }
 }
